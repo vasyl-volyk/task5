@@ -34,6 +34,7 @@ push:
 clean:
 	rm -rf kbot
 	rm -rf *.tar.gz
+	docker rmi $(REGISTRY)/$(APP):$(VERSION)-$(TARGETARCH) || true
 
 # OS shortcuts
 linux:
