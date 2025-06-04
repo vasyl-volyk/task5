@@ -1,8 +1,8 @@
 APP := $(shell basename $(shell git remote get-url origin) )
 REGISTRY := vasylvolyk
 VERSION=$(shell git describe --tags --abbrev=0)-$(shell git rev-parse --short HEAD)
-TARGETOS=linux #linux darwin windows
-TARGETARCH=arm64 #amd64 arm64
+TARGETOS = $(shell go env GOOS)
+TARGETARCH = $(shell go env GOARCH)
 
 format:
 	@echo "Formatting Go code..."
@@ -26,7 +26,7 @@ build: format get
 	CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} go build -v -o kbot -ldflags "-X=github.com/vasyl-volyk/kbot/cmd.appVersion=${VERSION}"
 
 image:
-	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
+	docker build . -t ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH} --build-arg TARGETARCH=${TARGETARCH} --build-arg VERSION=${VERSION}
 
 push:
 	docker push ${REGISTRY}/${APP}:${VERSION}-${TARGETARCH}
