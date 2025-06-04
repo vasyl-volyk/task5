@@ -27,3 +27,33 @@ push:
 
 clean:
 	rm -rf kbot
+
+# OS shortcuts
+linux:
+	$(MAKE) build TARGETOS=linux
+
+windows:
+	$(MAKE) build TARGETOS=windows
+
+macos:
+	$(MAKE) build TARGETOS=darwin
+
+# ARCH shortcuts
+amd64:
+	$(MAKE) build TARGETARCH=amd64
+
+arm64:
+	$(MAKE) build TARGETARCH=arm64
+
+# Комбінації ОС + архітектура (приклади)
+linux-amd64:
+	$(MAKE) build TARGETOS=linux TARGETARCH=amd64
+
+linux-arm64:
+	$(MAKE) build TARGETOS=linux TARGETARCH=arm64
+
+windows-amd64:
+	$(MAKE) build TARGETOS=windows TARGETARCH=amd64
+
+darwin-arm64:
+	$(MAKE) build TARGETOS=darwin TARGETARCH=arm64
