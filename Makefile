@@ -5,10 +5,16 @@ TARGETOS=linux #linux darwin windows
 TARGETARCH=arm64 #amd64 arm64
 
 format:
-	gofmt -s -w ./
+	@echo "Formatting Go code..."
+	@gofmt -s -w ./
 
-Lint:
-	golint run
+install-lint:
+	@which golangci-lint >/dev/null || (echo "Installing golangci-lint..." && go install github.com/golangci/golangci-lint/cmd/golangci-lint@latest)
+
+# Run linter
+lint: install-lint
+	@echo "Running linter..."
+	@golangci-lint run ./...
 
 test:
 	go test -v
@@ -27,6 +33,7 @@ push:
 
 clean:
 	rm -rf kbot
+	rm -rf *.tar.gz
 
 # OS shortcuts
 linux:
